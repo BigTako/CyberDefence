@@ -1,0 +1,20 @@
+import scapy.all as scapy
+
+scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet, filter="")
+    # iface -> interface name
+    # store=True -> to store every received packet in memory
+    # prn -> function , which will be executed every time "sniff" get packet
+    # filter="nothing/upd"/"tcp"/"port [NUMBER]" -> filter by some criteria(NOT HTTP PACKETS)
+    
+load = packet[scapy.Raw].load  # data from Raw layer(works for other layers)
+packet.haslayer(scapy.Raw)  # check if packet has layer 
+
+""" TO USE SNIFFING YOU HAVE TO REDIRECT PACKETS!!
+    To user a program follow instructions:
+    1)Make sure your machine and target machine are connected to the same network!!!!
+    2) Open terminal.
+    3) Go to directory with 'pack_redirector.py' file(in PycharmProjects).
+    4) Write in terminal: sudo python3 pack_redirector.py -v [TARGET_IP] -r [ROUTER_IP]
+        paste IP of machine you want to attack instead of [TARGET_IP] and IP of you router
+        instead of [ROUTER_IP]
+"""

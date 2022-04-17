@@ -1,0 +1,29 @@
+#!/usr/bin/env pyt
+#pip install scapy
+#https://scapy.readthedocs.io/en/latest/ <== scapy documentation
+
+import scapy.all as scapy
+
+arp_request = scapy.ARP(pdst=ip)  <== make an ARP request(with question who has such IP)
+
+print(arp_request.summary())  <== print who requests to whom
+
+arp_request.show() #show info adout request
+
+scapy.ls(scapy.ARP())  <== print all the fields request has
+
+broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff") <== make a package with broadcast MAC address(ff:ff:ff:ff:ff:ff -> broadcast MAC)
+
+broadcast.show()  <== print info about package
+
+arp_request_broadcast = broadcast/arp_request <== unite two packages(broadcast request with question)
+
+arp_request_broadcast.show() <== print info about package
+
+answered, unanswered = scapy.srp(arp_request_broadcast, timeout=1, verbose=True)  <== send request(with question to broadcast address -- verbose=True--> print count of packages recieved)
+    
+for el in answered: <== iteration in list of packages(every item is package(tupple))
+    #el[0] <== info from sender, el[1] <== info form reciever
+    el[1].show() <==  print the whole info about package 
+    print (el[1].psrc) <== print client IP
+    print(el[1].hwsrc) <== print client MAC

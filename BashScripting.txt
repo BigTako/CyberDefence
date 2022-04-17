@@ -1,0 +1,445 @@
+>>>>>>>>>>>[*] BASH SCRIPTING [*]<<<<<<<<<<<<
+
+----------------------------------------------------------------
+		    [*] PREPARING [*]		
+----------------------------------------------------------------
+
+1) Created executable file:$ touch [FILENAME].sh
+   [EXAMPLE]:$ touch helloScript.sh
+
+2) Give a file executable mode: chmod +x [FILENAME].sh
+   [EXAMPLE]:$ chmod +x helloScript.sh
+
+3) File in the top on file: #!/[PATH TO BASH SHELL]
+   [EXAMPLE]: #!/bin/bash
+   
+4) To execute ".sh" file write:$ ./[file] or $ ./[path_to_file]
+
+
+----------------------------------------------------------------
+		  [*] REDIRECT TO FILE [*]		
+----------------------------------------------------------------
+
+
+# Write given command to file
+
+1) Print something do terminal: echo "String"
+
+2) Rewrite a file: echo "string" > file.txt
+		  [OR] cat > file.txt
+3) Append text to file: echo "string" >> file.txt
+		        [OR] cat >> file.txt
+
+-----------[|] COMMENTS [|]-----------------
+
+Comments: '#' -> one line comment
+	  :'comments' -> several lines comment
+	     
+Block of comment: cat << kreative  # execute command with text
+		  text...text
+		  kreative
+		  
+		  
+----------------------------------------------------------------
+		    [*] CONDITIONS [*]		
+----------------------------------------------------------------
+
+
+-----------[|] MAKING VARIABLES [|]-----------------
+count=10
+string="some_string"
+
+----------------(~Method1~)----------------------
+
+if [ $count -ne 99 ] 
+then 
+	echo Count is equal $count.
+else 
+	echo Count is not equal 100.
+fi
+
+# INT1 -eq INT2 --> if INT1 numericaly equal INT2
+# INT1 -ne INT2 --> if INT1 numericaly not equal INT2
+# INT1 -gt INT2 --> if INT1 numericaly greater than INT2
+# INT1 -lt INT2 --> if INT1 numericaly less than INT2
+
+----------------(~Method2~)----------------------
+
+if (($count > 9)) # working with simple code math operators
+then
+	echo "the condition is true"
+elif (($count == 9))
+then
+	echo "the condition is true(equal 9)"
+else
+	echo "the condition is false"
+fi
+
+----------------(~Method3~)----------------------
+
+if [ $age -gt 18 ] && [ $age -lt 40 ] 
+
+# can be writen as [[ $age -gt 18 && $age -lt 40 ]]
+# can be also writen as [ $age -gt 18 -a $age -lt 40 ]
+
+# Oprerators : '&&' = '-a' <- AND ; '||' = '-o' <- OR ;  
+# conditions working with code boolean operators
+
+then
+	echo "Age is correct"
+else
+	echo "Age is not correct"
+fi
+
+----------------(~Method4~)----------------------
+
+case EXPRESSION in
+
+  PATTERN_1)
+    STATEMENTS
+    ;;
+
+  PATTERN_2)
+    STATEMENTS
+    ;;
+
+  PATTERN_N)
+    STATEMENTS
+    ;;
+
+  *)
+    STATEMENTS
+    ;;
+esac
+
+----------------------------------------------------------------
+		      [*] LOOPS [*]		
+----------------------------------------------------------------
+
+
+--------------[|] While loop [|]-------------------
+
+number=1
+
+while [ $number -lt 10 ]  # while number less then 10(condition is TRUE )
+do
+	echo $number
+	number=$(( number+1 )) # increment
+done
+
+--------------[|] Until loop [|]-------------------
+
+until [ $number -ge 10 ] # do while condition is FALSE
+do
+	echo $number
+	number=$(( number+1 ))
+done
+
+--------------[|] For loop [|]-------------------
+		(~Method1~)
+	
+for i in 1 2 3 4 5  # for i in range[1,5]
+do
+	echo $i
+done
+
+----------------(~Method2~)----------------------
+
+for i in {0..20..2}  # {start..ending..increment}
+do
+	echo $i
+done
+
+----------------(~Method3~)----------------------
+for (( i=0; i<10; i++ ))  #programming method
+do
+	if [ $i -gt 5 ]
+	then
+		break # end cycle
+	fi
+
+	if (( i%2 == 0 ))
+	then
+		continue # skip iteration
+	fi
+	echo $i
+done
+
+----------------------------------------------------------------
+		    [*] INPUT(stdin) [*]		
+----------------------------------------------------------------
+
+args=("$@") # make an array(unlimited items)
+
+	-------[-] Method 1 [-]---------
+	
+echo ${args[0]} ${args[1]} ${args[2]} # input free arguments
+# $ helloScript.sh ARG1 ARG2 ARG3
+
+	-------[-] Method 2 [-]---------
+echo 'enter first string: '
+read st1
+
+echo 'enter second stirng: '
+read st2
+
+	-------[-] Other [-]---------
+echo $@  # print whole array(it's content)
+
+echo $#  # print a lenght of an array
+
+while read line
+do
+	echo "$line"
+done < "${1:-/dev/stdin}"
+
+# helloScript.sh (no input) <= print anything was writen(echo bot)
+# helloScript.sh filename (file given) <= read and print a content of the file
+ 
+----------------------------------------------------------------
+		    [*] OUTPUT(stdout) [*]		
+----------------------------------------------------------------
+
+ls -al 1>file1.txt 2>file2.txt
+# write standart input to file1 
+# write errors(if they are) to file2
+
+ls -al >file.txt
+# write command output(not errors) to file.txt
+
+ls -al >& file.txt  OR ls -al 1>file.txt 2>&1
+# write command output(errors too) to file.txt
+
+----------------------------------------------------------------
+	[*] SENDING OUTPUT FROM ONE SCRIPT TO ANOTHER [*]		
+----------------------------------------------------------------
+--------------------[-] File1(helloScript.sh) [-]------------------------
+
+MESSAGE="Hello LinuxHint Audience"
+export MESSAGE
+./secondScript.sh
+
+--------------------[-] File2(secondScript.sh) [-]------------------------
+
+echo "the message form helloScript: $MESSAGE"
+
+# In terminal: $ ./helloScript.sh
+
+----------------------------------------------------------------
+		[*] STRINGS PROCESSING [*]		
+----------------------------------------------------------------
+
+echo 'enter first string: '
+read st1
+
+echo 'enter second stirng: '
+read st2
+
+	-----[-] STRINGS COMPARISON [-]-------
+
+if [ $st1 == $st2 ] # if st1 equals st2 by len + content
+then
+   echo "Strings match."
+else
+   echo "Strings don't match."
+fi
+	
+if [ $st1 \< $st2 ]  #checks if st1 smaller then st2 by len
+then
+    echo "St1 is smaller then St2."
+elif [ $st1 \> $st2 ]
+then
+    echo "St2 is smaller then St1."
+else
+    echo "St2 is equal St2"
+fi
+
+	-----[-] CONCATENATION [-]-------
+c=$st1$st2  # strings concatenation
+
+	-----[-] UPPER CASE [-]-------
+echo ${c^}  # Make first letter UPPER CASE
+echo ${c^^} # Make all the letters UPPER CASE
+echo ${c^h} # Make UPPER CASE only letter 'h' if it's first
+
+----------------------------------------------------------------
+		[*] NUMBERS AND ARUPHMETIC [*]		
+----------------------------------------------------------------
+	----[-] SIMPLE ARYMPMETIC [-]----
+echo 31+21 # prints string result -> 31+21
+n1=4
+n2=20
+
+echo $(( n1 + n2 )) # prints int result -> 24 
+#the same is for each aryphmetic operation(doesn't work with float)
+#+ <- add, - <- subtract, * <- multiple , / <- divide
+
+echo $(expr $n1 + $n2 )
+#works the same as previous command 
+#BUT /* <- TO MULTIPLY , + <- add, - <- subtract, / <- divide
+ 
+	----[-] BC CALCULATOR [-]----
+echo "Write some HEX num: "
+read Hex
+
+echo -n "The decimal value of $Hex is: "
+echo "obase=10; ibase=16; $Hex" | bc # transform num from hexademical system to decimal
+
+#To work with FLOAT use bc calculator:
+https://www.tech-notes.net/use-bc-in-bash-calculations/
+
+----------------------------------------------------------------
+		[*] DECLARE COMMAND [*]		
+----------------------------------------------------------------
+
+$ declare -p ---> show list of variables
+
+declare pwdfile=/etc/passwd  # declare(create) variable(and give value)
+echo $pwdfile  #show content of variable
+
+declare -r pwdfile=/etc/passwd # declare READONLY variable
+
+----------------------------------------------------------------
+		    [*] ARRAYS [*]		
+----------------------------------------------------------------
+
+cars=('BMW' 'TOYOTA' 'HONDA') # create an array(space instead of coma)
+
+echo ${cars[@]} # print a content of array
+
+unset cars[1] # remove element by index 1 in array
+cars[1] = "MERCEDES" # append new value to array by index
+
+for i in {0..3..1}  # {start..ending..increment}
+do
+	echo ${cars[$i]}
+done
+
+echo ${cars[1]} # show element by index 1
+echo ${!cars[@]} # show index of element (with @ -> show all indexes)
+echo ${#cars[@]} # show array lenght
+
+----------------------------------------------------------------
+		    [*] FUNCTIONS [*]		
+----------------------------------------------------------------
+
+function func() # create function 
+{
+	echo "This is new function"
+}
+
+func  # call the function(no arguments)
+
+function func2() # create function 
+{
+	echo $1 $2  # take an args(any count)
+}
+
+func2 "Arg1" "Arg2" # call the fucntion with arguments
+
+function funcCheck()
+{
+	for i in {1..5..1}
+	do
+		if [ $i == 4 ]
+		then
+			return  # return command does ONLY EXT from function
+		fi
+	done
+}
+
+---------[-] RETURN VALUE [-]----------
+(1) By global variables (1)
+
+result=1
+function funcCheck()
+{
+	result=5
+}
+
+funcCheck
+echo $result
+
+(2) By local variables (2)
+
+function func()
+{
+	local myresult='some value'
+	echo "$myresult"	
+} 
+
+result=$(func)
+echo $result
+
+----------------------------------------------------------------
+		[*] FILES AND DIRECTORIES [*]		
+----------------------------------------------------------------
+
+	------[-] Check directory [-]------
+
+echo "Enter directory name to check"
+read dirname
+
+if [ -d "$dirname" ] # check if directory 'dirname' exists
+then
+	echo "$dirname exists."
+else
+	echo "$dirname doesn't exist"
+fi
+
+	---------[-] Check file [-]---------
+	
+echo "Enter file name to check"
+read filename
+
+if [ -f "$filename" ] # check if directory 'filename' exists
+then
+	echo "$filename exists."
+else
+	echo "$filename doesn't exist"
+fi
+
+    ----------[-] Read file line by line [-]--------  
+    
+echo "Enter file name to check"
+read filename
+
+if [ -f "$filename" ] # check if directory 'filename' exists
+then
+	while IFS= read -r line
+  do
+		echo "$line" #print line from file
+	done < $filename 
+else
+	echo "$filename doesn't exist"
+fi
+
+----------------------------------------------------------------
+		[*] SENDING EMAIL VIA SCRIPT [*]		
+----------------------------------------------------------------
+
+#$ sudo apt-get install ssmtp
+#$ sudo su
+#$ gedit /etc/ssmpt/ssmtp.conf
+# write down into file:
+
+root=[SENDER EMAIL]
+mailhub=smtp.gmail.com:587 #here paste you smtp instead fo gmail
+AuthUser=[SENDER EMAIL]
+AuthPass=[SENDER PASSWORD]
+UseSTARTTLS=yes
+
+#$ ssmtp [RECIEVER ADDRESS]
+# write down this text:
+
+To: [RECIEVER EMAIL] 
+Fro: [SENDER EMAIL] 
+Cc: [SENDER EMAIL] 
+Subject: [EMAIL SUBJECT]
+SOME TEXT(email body)
+
+----------------------------------------------------------------
+		[*] SENDING EMAIL VIA SCRIPT [*]		
+----------------------------------------------------------------
+
+

@@ -1,0 +1,20 @@
+sudo iptables -I FORWARD -j NFQUEUE --queue-num [SOME_NUMBER]  <== make an packets queue
+# pip install NetfilterQueue
+
+from netfilterqueue import NetfilterQueue
+
+def process_packet(packet):
+    print(packet)
+    #packet.accept() # send packets in queue, to target machine
+    packet.drop() # drop any received packet(cut user from net)
+    
+
+queue = NetfilterQueue()
+queue.bind([SOME_NUMBER], process_packet) # connect queue in python with queue in terminal
+# param1 -> number of queue
+# param2 -> function which will be applied to every got packet
+queue.run()
+
+#IF EXIT
+sudo iptables --flush
+

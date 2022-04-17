@@ -1,0 +1,4 @@
+import subprocess
+
+text = str(subprocess.check_output("some command", shell=True))  <== take what command executed in terminal returns
+text2 = str(subprocess.check_output(["part1", "part2", ...]))  <== take what command executed in terminal returns

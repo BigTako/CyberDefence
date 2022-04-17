@@ -1,0 +1,30 @@
+>>>>>>>>>>>>>>>>>[*]OPERATORS IN LINUX TERMINAL[*]<<<<<<<<<<<<<<<<<<<<<<
+
+1) AMPERSANT : "&" ==> The function of ‘&‘ is to make the command run in background(Run several commands simultaneously).
+Example : $ apt-get update & apt-get upgrade
+
+2)Semicolon operator ';' ==> Execute several commands sequently(one by one)
+Example : $ echo "Hello"; echo "World"
+
+3) Operator AND '&&' ==> would execute the second command only, if the execution of first command SUCCEEDS, i.e., the exit status of the first command is 0. This command is very useful in checking the execution status of last command.
+[SUCCESS] $ ls -la && pwd ; [ERROR] $ ls --asdfs && pwd
+
+4) Operator OR '||' ==> would execute the second command only, if the execution of first command FAILS(just like an else statement in programming)
+[FIRST/SECOND] $ ls -adsff || pwd ; [FIRST ONLY] ls -la || pwd 
+
+5) AND – OR operator "&& – ||"  ==> The above operator is actually a combination of ‘AND‘ and ‘OR‘ Operator. It is much like an ‘if-else‘ statement.
+[EXAMPLE] $ ping -c 1 www.sadgwht4qr3t235t2g.com && echo "Success" || echo "Failed"
+	    ping: www.sadgwht4qr3t235t2g.com: Name or service not known
+	    Failed
+
+6) PIPE Operator "|"  ==> This PIPE operator is very useful where the output of first command acts as an input to the second command. 
+[EXAMPLE] $ touch file.txt | ls
+
+7) Command Combination Operator "{}" <== Combine two or more commands, the second command depends upon the execution of the first command.
+[EXPAMPLE] $ [ -d bin ] || { echo Directory does not exist, creating directory now.; mkdir bin; } && echo Directory exists.
+[ -d bin ]  <== check if 'bin' directory is available
+
+8) Precedence Operator () <== The Operator makes it possible to execute command in precedence order.
+[EXAMPLE] (Command_x1 &&Command_x2) || (Command_x3 && Command_x4)
+In the above pseudo command, if Command_x1 fails, Command_x2 also fails but Still Command_x3 and Command_x4 executes depends upon exit status of Command_x3.
+

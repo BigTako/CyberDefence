@@ -1,0 +1,8 @@
+
+
+# https://pythex.org/  <== site for creating regular expressions
+
+import re
+
+needed_part = re.search(r"EXPRESSION", text)  <== Example: needed_part = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w", text) -- for MAC address
+

@@ -1,0 +1,12 @@
+#pip install scapy
+import scapy.all as scapy
+
+def get_mac_by_ip(ip):
+    arp_request = scapy.ARP(pdst=ip)  # make an ARP package addressed to IP(pdst=ip)
+    broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")  # make a package addressed to broadcast MAC
+    arp_request_broadcast = broadcast/arp_request  # unite packages
+    answered = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]  # send package
+    result = 0
+    for package in answered:
+        result = package[1].hwsrc
+    return result  # return MAC 

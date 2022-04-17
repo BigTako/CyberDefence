@@ -1,0 +1,4 @@
+ifconfig <== check interfaces available now
+sudo ifconfig [INTERFACE_NAME] down  <== turn off an interface
+sudo ifconfig [INTERFACE_NAME] hw ether [NEW_MAC_ADDRESS(12 letters or digits)]  <== change current MAC address
+sudo ifconfig [INTERFACE_NAME] up  <== turn on an interface

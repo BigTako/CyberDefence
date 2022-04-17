@@ -1,0 +1,7 @@
+ #!/usr/bin/env python
+
+import subprocess
+
+subprocess.call("command", shell=True)  <== execute some command(enter full command in "")
+subprocess.call(["part1", "part2", ...])  <== execute some command(enter parts of command in list)
+

